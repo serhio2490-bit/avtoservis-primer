@@ -5,26 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Пример сайта автосервиса — Бокс 16</title>
     <meta name="robots" content="noindex" />
+    <link rel="preload" as="image" href="img/hero-studiya.webp" fetchpriority="high" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Geologica:wght@300;400;500;600&family=Onest:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <style>
       :root {
-        --bg: #f7f9fb;
+        --bg: #f2f3f5;
         --paper: #ffffff;
-        --ink: #152033;
-        --ink-2: #4d5a6c;
-        --line: #c5d0dc;
-        --line-2: #e3e9ef;
-        --accent: #1d4ed8; /* чернила: только действия */
-        --accent-d: #173ea9;
-        --stamp: #b4232a;
-        --ok: #127a4a;
-        --f-head: "Oswald", sans-serif;
+        --ink: #0e1116;
+        --ink-2: #565e6b;
+        --line: #dfe2e7;
+        --studio: #cdd1d8; /* цвет фона студии на фото — заливка краёв */
+        --amber: #f2a900; /* только сигнал: точка «открыто», выбранное */
+        --r-l: 28px;
+        --r-m: 18px;
+        --f-head: "Geologica", sans-serif;
+        --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
         --f-body: "Onest", sans-serif;
-        --f-num: "JetBrains Mono", monospace;
         --s2: 8px;
         --s3: 12px;
         --s4: 16px;
@@ -32,12 +32,14 @@
         --s6: 32px;
         --s7: 48px;
         --s8: 64px;
+        --s9: 96px;
       }
       * {
         box-sizing: border-box;
       }
       html {
         overflow-x: clip;
+        scroll-padding-top: 88px;
       }
       body {
         margin: 0;
@@ -49,39 +51,31 @@
       a {
         color: inherit;
       }
+      img {
+        display: block;
+        max-width: 100%;
+      }
       :focus-visible {
-        outline: 3px solid var(--accent);
+        outline: 2px solid var(--ink);
         outline-offset: 3px;
       }
       ::selection {
-        background: #c9d8ff;
+        background: #ffe3a1;
       }
       .wrap {
-        max-width: 1200px;
+        max-width: 1360px;
         margin: 0 auto;
-        padding-inline: 20px;
+        padding-inline: 24px;
       }
 
-      /* Полоска из трёх фактов над шапкой — приём Best California Movers (Awwwards) */
-      .fakty {
-        background: var(--ink);
-        color: #e8edf5;
-        font: 400 14px/1.4 var(--f-num);
-      }
-      .fakty ul {
-        display: flex;
-        justify-content: center;
-        gap: var(--s6);
-        margin: 0;
-        padding: 10px 20px;
-        list-style: none;
-        flex-wrap: wrap;
-      }
-
-      /* Шапка — как верх бланка */
+      /* ---------- Шапка ---------- */
       .top {
-        background: var(--paper);
-        border-bottom: 2px solid var(--ink);
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background: rgba(242, 243, 245, 0.86);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
       }
       .top .wrap {
         display: flex;
@@ -89,170 +83,175 @@
         gap: var(--s6);
         min-height: 76px;
       }
-      .top .wrap > * {
-        min-height: 48px;
+      .logo {
         display: flex;
+        align-items: baseline;
+        gap: 10px;
+        text-decoration: none;
+        min-height: 48px;
         align-items: center;
       }
-      .logo {
-        gap: var(--s3);
-        text-decoration: none;
-      }
       .logo b {
-        font: 600 26px/1 var(--f-head);
-        letter-spacing: 0.01em;
+        font: 600 24px/1 var(--f-head);
+        letter-spacing: -0.02em;
       }
-      .logo small {
-        font: 400 12px/1.3 var(--f-num);
+      .logo span {
+        font-size: 13px;
         color: var(--ink-2);
+        line-height: 1.25;
       }
       .menu {
         display: flex;
-        gap: var(--s5);
+        gap: 4px;
         margin: 0 0 0 auto;
-        list-style: none;
         padding: 0;
-      }
-      nav {
-        margin-left: auto;
+        list-style: none;
       }
       .menu a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 14px;
+        border-radius: 999px;
         text-decoration: none;
         font-weight: 500;
-        padding: 10px 0;
-        display: inline-block;
+        font-size: 15.5px;
+        transition: background 0.2s;
       }
       @media (hover: hover) and (pointer: fine) {
         .menu a:hover {
-          text-decoration: underline;
-          text-underline-offset: 6px;
+          background: #e4e6ea;
         }
       }
       .tel {
-        font: 600 18px/1 var(--f-num);
         text-decoration: none;
+        font-weight: 600;
         white-space: nowrap;
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+        font-variant-numeric: tabular-nums;
+      }
+      .tel-nomer {
+        display: flex;
+        flex-direction: column;
+      }
+      .tel-ikon {
+        display: none;
+      }
+      .tel small {
+        font-weight: 400;
+        font-size: 12.5px;
+        color: var(--ink-2);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .tel small::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--amber);
+        box-shadow: 0 0 0 3px rgba(242, 169, 0, 0.22);
       }
       .btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        min-height: 48px;
-        padding: 0 22px;
-        border-radius: 6px;
-        background: var(--accent);
+        gap: 10px;
+        min-height: 52px;
+        padding: 0 26px;
+        border-radius: 999px;
+        background: var(--ink);
         color: #fff;
-        font: 600 16px/1 var(--f-body);
+        font: 500 16px/1 var(--f-body);
         text-decoration: none;
         border: 0;
         cursor: pointer;
         white-space: nowrap;
         transition:
-          background 0.15s cubic-bezier(0.23, 1, 0.32, 1),
-          transform 0.1s;
+          background 0.2s,
+          transform 0.12s;
       }
       @media (hover: hover) and (pointer: fine) {
         .btn:hover {
-          background: var(--accent-d);
+          background: #2a2f38;
         }
       }
       .btn:active {
-        transform: translateY(1px);
+        transform: scale(0.98);
+      }
+      .btn.svetlaya {
+        background: #fff;
+        color: var(--ink);
       }
 
-      /* Первый экран: слева обещание, справа заявка-бланк (форма в первом экране — Best California Movers) */
+      /* ---------- Первый экран ---------- */
       .hero {
-        padding-block: var(--s7);
+        padding-top: var(--s3);
       }
-      .hero .wrap {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
-        gap: var(--s7);
-        align-items: start;
+      .kadr {
+        position: relative;
+        isolation: isolate;
+        border-radius: var(--r-l);
+        overflow: hidden;
+        min-height: 660px;
+        background: var(--studio);
+        display: flex;
+        flex-direction: column;
+        padding: var(--s8) var(--s8) 88px;
+      }
+      /* Фото студии справа, левый край растворяется в фоне — машина не лезет под текст */
+      .kadr::before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        top: -30px;
+        bottom: -30px;
+        left: 29%;
+        right: -90px;
+        background: url("img/hero-studiya.webp")
+          no-repeat 50% 58% / cover;
+        -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 22%);
+        mask-image: linear-gradient(90deg, transparent 0, #000 22%);
+      }
+      .nad {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(8px);
+        border-radius: 999px;
+        padding: 7px 14px;
+        align-self: flex-start;
+        margin-bottom: var(--s5);
       }
       h1 {
-        font: 600 clamp(2.4rem, 3vw + 1.2rem, 4rem)/1.04 var(--f-head);
-        margin: var(--s4) 0 var(--s5);
-        letter-spacing: -0.01em;
-        text-transform: uppercase;
+        font: 500 clamp(40px, 4.6vw, 72px)/1.02 var(--f-head);
+        letter-spacing: -0.035em;
+        margin: 0 0 var(--s5);
+        max-width: 10em;
       }
       .lead {
-        font-size: 20px;
-        color: var(--ink-2);
-        max-width: 34ch;
+        font-size: 19px;
+        line-height: 1.5;
+        color: #2c323c;
+        max-width: 25em;
         margin: 0;
       }
-      .tolko-telefon {
-        display: none;
+      .simptomy {
+        margin-top: auto;
+        padding-top: var(--s7);
       }
-      .blank {
-        background: var(--paper);
-        border: 1.5px solid var(--ink);
-        border-radius: 4px;
-        padding: var(--s5);
-        position: relative;
-        box-shadow: 6px 8px 24px rgba(21, 32, 51, 0.08);
-      }
-      .blank h2 {
-        font: 600 20px/1.2 var(--f-head);
-        text-transform: uppercase;
-        margin: 0 0 var(--s3);
-        display: flex;
-        justify-content: space-between;
-        gap: var(--s3);
-      }
-      .blank h2 span {
-        font: 400 14px/1.4 var(--f-num);
-        text-transform: none;
-        color: var(--ink-2);
-      }
-      .pole {
-        display: grid;
-        grid-template-columns: 128px minmax(0, 1fr);
-        align-items: center;
-        gap: var(--s3);
-        border-top: 1px solid var(--line);
-        padding-block: 10px;
-      }
-      .pole label {
-        font: 400 13px/1.4 var(--f-num);
-        color: var(--ink-2);
-      }
-      .pole input,
-      .pole select {
-        font: 500 16px/1.2 var(--f-body);
-        color: var(--ink);
-        border: 0;
-        border-bottom: 1.5px dashed var(--line);
-        background: transparent;
-        min-height: 44px;
-        padding: 0 4px;
-        width: 100%;
-        border-radius: 0;
-      }
-      .pole input:focus,
-      .pole select:focus {
-        outline: none;
-        border-bottom: 2px solid var(--accent);
-      }
-      .simptom {
-        display: block;
-        border: 0;
-        border-top: 1px solid var(--line);
-        margin: 0;
-        padding: 10px 0 12px;
-        min-inline-size: 0;
-      }
-      .simptom legend {
-        float: left;
-        width: 100%;
-        padding: 0;
-        margin-bottom: 8px;
-        font: 400 13px/1.4 var(--f-num);
-        color: var(--ink-2);
+      .simptomy p {
+        font-size: 14px;
+        font-weight: 500;
+        margin: 0 0 10px;
       }
       .chipsy {
-        clear: both;
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
@@ -271,204 +270,637 @@
         display: inline-flex;
         align-items: center;
         min-height: 44px;
-        padding: 0 14px;
-        border: 1.5px dashed var(--line);
-        border-radius: 4px;
-        font: 500 15px/1.2 var(--f-body);
+        padding: 0 18px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.72);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        font-size: 15px;
+        font-weight: 500;
         cursor: pointer;
         white-space: nowrap;
+        transition:
+          background 0.2s,
+          color 0.2s;
       }
       .chipsy input:checked + span {
-        border: 1.5px solid var(--accent);
-        background: #eef3ff;
-        color: var(--accent-d);
+        background: var(--ink);
+        color: #fff;
       }
       .chipsy input:focus-visible + span {
-        outline: 3px solid var(--accent);
+        outline: 2px solid var(--ink);
         outline-offset: 2px;
       }
-      .sdelaem {
-        margin: 10px 0 0;
+
+      /* Панель записи — как строка поиска на сайтах автодилеров */
+      .zapis {
+        position: relative;
+        margin: -44px var(--s6) 0;
+        background: var(--paper);
+        border-radius: var(--r-m);
+        box-shadow:
+          0 1px 2px rgba(14, 17, 22, 0.06),
+          0 18px 48px rgba(14, 17, 22, 0.12);
+        padding: 10px 10px 10px 0;
+        z-index: 2;
+      }
+      .polya {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr 1fr auto;
+        align-items: stretch;
+      }
+      .pole {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 8px 24px;
+        border-right: 1px solid var(--line);
+        min-width: 0;
+      }
+      .pole:nth-child(3) {
+        border-right: 0;
+      }
+      .pole label {
+        font-size: 13px;
+        color: var(--ink-2);
+        line-height: 1.3;
+      }
+      .pole input,
+      .pole select {
+        font: 500 17px/1.3 var(--f-body);
+        color: var(--ink);
+        border: 0;
+        background: transparent;
+        padding: 4px 0;
+        min-height: 36px;
+        width: 100%;
+        outline: none;
+        border-radius: 0;
+        appearance: none;
+      }
+      .pole select {
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%230e1116' stroke-width='1.6'/%3E%3C/svg%3E")
+          no-repeat right 2px center;
+        padding-right: 22px;
+        cursor: pointer;
+      }
+      .pole:focus-within {
+        background: #f6f7f9;
+        border-radius: 12px;
+      }
+      .pole input::placeholder {
+        color: #6b7280;
+      }
+      .zapis .btn {
+        min-height: 60px;
+        border-radius: 12px;
+        padding: 0 30px;
+      }
+      .pod-zapisyu {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: var(--s5);
+        flex-wrap: wrap;
+        padding: 14px 24px 6px;
+        border-top: 1px solid var(--line);
+        margin-top: 10px;
         font-size: 14px;
         color: var(--ink-2);
       }
       .sdelaem b {
         color: var(--ink);
-        font-family: var(--f-num);
+        font-weight: 600;
         white-space: nowrap;
       }
       .soglasie {
         display: flex;
-        gap: 10px;
+        gap: 8px;
         align-items: flex-start;
-        font-size: 14px;
-        color: var(--ink-2);
-        margin: var(--s4) 0;
       }
       .soglasie input {
-        width: 20px;
-        height: 20px;
-        margin-top: 2px;
-        accent-color: var(--accent);
+        width: 18px;
+        height: 18px;
+        margin: 2px 0 0;
+        accent-color: var(--ink);
         flex: none;
       }
-      .otpravka {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: var(--s3) var(--s5);
+      .otvet {
+        display: none;
+        padding: 0 24px 8px;
+        font-size: 15px;
+        color: var(--ink);
       }
-      .obeshchaniya {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        font-size: 14px;
-      }
-      .obeshchaniya li::before {
-        content: "✓";
-        color: var(--ok);
-        font-weight: 700;
-        margin-right: 6px;
+      .otvet.vidno {
+        display: block;
       }
 
-      /* Ключевой блок: услуги как строки заказ-наряда */
-      .uslugi {
-        padding-block: var(--s7) var(--s8);
+      /* ---------- Обещания ---------- */
+      .obeshchaniya {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: var(--s5);
+        padding-block: var(--s8) var(--s7);
+        margin: 0;
+        list-style: none;
       }
-      .uslugi h2 {
-        font: 600 clamp(1.9rem, 1.6vw + 1.2rem, 2.6rem)/1.1 var(--f-head);
-        text-transform: uppercase;
-        margin: 0 0 var(--s3);
+      .obeshchaniya li {
+        border-top: 1px solid #c9cdd4;
+        padding-top: var(--s4);
       }
-      .uslugi .pod {
+      .obeshchaniya b {
+        display: block;
+        font: 500 22px/1.2 var(--f-head);
+        letter-spacing: -0.02em;
+        margin-bottom: 6px;
+      }
+      .obeshchaniya span {
         color: var(--ink-2);
-        margin: 0 0 var(--s6);
-        max-width: 60ch;
+        font-size: 15.5px;
       }
-      .tablica {
-        background: var(--paper);
-        border: 1.5px solid var(--ink);
-        border-radius: 4px;
+
+      /* ---------- Услуги ---------- */
+      .razdel {
+        padding-block: var(--s8);
+      }
+      .razdel h2 {
+        font: 500 clamp(32px, 3.2vw, 52px)/1.05 var(--f-head);
+        letter-spacing: -0.03em;
+        margin: 0 0 var(--s4);
+      }
+      .razdel .pod {
+        color: var(--ink-2);
+        max-width: 34em;
+        margin: 0 0 var(--s6);
+      }
+      .uslugi-setka {
+        display: grid;
+        grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+        gap: var(--s5);
+        align-items: stretch;
+      }
+      .uslugi-foto {
+        border-radius: var(--r-l);
+        overflow: hidden;
         position: relative;
+        min-height: 560px;
+      }
+      .uslugi-foto img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: 40% 50%;
+      }
+      .uslugi-foto figcaption {
+        position: absolute;
+        left: 20px;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(255, 255, 255, 0.82);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 14px;
+        padding: 14px 16px;
+        font-size: 15px;
+      }
+      .uslugi-foto figcaption b {
+        display: block;
+        font-weight: 600;
+      }
+      .prays {
+        background: var(--paper);
+        border-radius: var(--r-l);
+        padding: var(--s7) var(--s7) var(--s6);
+        display: flex;
+        flex-direction: column;
       }
       .row {
         display: grid;
-        grid-template-columns: 56px minmax(0, 1fr) 150px;
-        align-items: center;
+        grid-template-columns: 28px minmax(0, 1fr) auto;
         gap: var(--s4);
-        padding: var(--s4) var(--s5);
-        border-top: 1px solid var(--line-2);
+        align-items: center;
+        padding: 18px 14px;
+        margin-inline: -14px;
+        position: relative;
+        border-radius: 12px;
         cursor: pointer;
+        transition: background 0.2s var(--ease-out);
       }
-      .row:first-child {
-        border-top: 0;
+      .row::after {
+        content: "";
+        position: absolute;
+        left: 14px;
+        right: 14px;
+        bottom: 0;
+        border-bottom: 1px solid var(--line);
       }
       .row input {
-        width: 24px;
-        height: 24px;
-        accent-color: var(--accent);
+        appearance: none;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        border: 1.5px solid #b8bec8;
         margin: 0;
         cursor: pointer;
+        display: grid;
+        place-items: center;
+        transition: all 0.15s;
+      }
+      .row input:checked {
+        background: var(--ink)
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='10'%3E%3Cpath d='M1 5l3.5 3.5L11 1.5' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E")
+          no-repeat center;
+        border-color: var(--ink);
       }
       .row b {
         display: block;
-        font-weight: 600;
+        font: 500 19px/1.3 var(--f-head);
+        letter-spacing: -0.01em;
       }
       .row small {
         color: var(--ink-2);
         font-size: 15px;
       }
-      .row .cena {
-        font: 600 17px/1.2 var(--f-num);
-        text-align: right;
+      .cena {
+        font-weight: 600;
         font-variant-numeric: tabular-nums;
+        white-space: nowrap;
       }
       .itogo {
+        margin-top: auto;
+        padding-top: var(--s6);
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: var(--s4);
         flex-wrap: wrap;
-        border-top: 2px solid var(--ink);
-        padding: var(--s5);
       }
       .itogo p {
         margin: 0;
-        font: 600 20px/1.2 var(--f-head);
-        text-transform: uppercase;
+        color: var(--ink-2);
+        font-size: 15px;
       }
       .itogo output {
-        font: 600 24px/1 var(--f-num);
-        margin-left: var(--s3);
-      }
-      .stamp {
-        position: absolute;
-        right: 24px;
-        top: -22px;
-        transform: rotate(-6deg);
-        border: 2.5px solid var(--stamp);
-        color: var(--stamp);
-        background: var(--paper);
-        font: 600 14px/1.2 var(--f-head);
-        text-transform: uppercase;
-        padding: 6px 12px;
-        border-radius: 4px;
-      }
-      .primechanie {
-        font: 400 13px/1.5 var(--f-num);
-        color: var(--ink-2);
-        margin-top: var(--s3);
+        display: block;
+        font: 500 34px/1.1 var(--f-head);
+        color: var(--ink);
+        letter-spacing: -0.02em;
+        font-variant-numeric: tabular-nums;
       }
 
-      @media (max-width: 900px) {
-        .fakty ul {
-          gap: 4px var(--s4);
-          justify-content: flex-start;
-          font-size: 13px;
+      /* ---------- Как работаем: разные размеры ---------- */
+      .bento {
+        display: grid;
+        grid-template-columns: 1.3fr 1fr 1fr;
+        grid-template-rows: 300px 300px;
+        gap: var(--s5);
+      }
+      .plitka {
+        border-radius: var(--r-l);
+        overflow: hidden;
+        position: relative;
+        padding: var(--s6);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        background: var(--paper);
+      }
+      .plitka.bolshaya {
+        grid-row: span 2;
+      }
+      .plitka.shirokaya {
+        grid-column: span 2;
+      }
+      /* Текст слева, фото справа половиной плитки */
+      .plitka.razdelnaya img {
+        left: 50%;
+        width: 50%;
+      }
+      .plitka.razdelnaya > div {
+        max-width: 48%;
+      }
+      .plitka img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .plitka.foto::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(14, 17, 22, 0.88) 0%,
+          rgba(14, 17, 22, 0.6) 40%,
+          rgba(14, 17, 22, 0.1) 75%
+        );
+      }
+      .plitka > div {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+      }
+      .plitka.foto {
+        color: #fff;
+      }
+      .plitka.temnaya {
+        background: var(--ink);
+        color: #fff;
+      }
+      .plitka .shag {
+        font: 400 14px/1 var(--f-body);
+        opacity: 0.75;
+        margin-bottom: 10px;
+      }
+      .plitka h3 {
+        font: 500 26px/1.15 var(--f-head);
+        letter-spacing: -0.02em;
+        margin: 0 0 8px;
+      }
+      .plitka p {
+        margin: 0;
+        font-size: 15.5px;
+        opacity: 0.85;
+        max-width: 30em;
+      }
+      .plitka.temnaya .btn {
+        margin-top: auto;
+        align-self: flex-start;
+      }
+
+      /* ---------- Контакты ---------- */
+      .kontakty {
+        background: var(--paper);
+        border-radius: var(--r-l);
+        padding: var(--s8);
+        display: grid;
+        grid-template-columns: 1.2fr 1fr 1fr;
+        gap: var(--s6);
+        align-items: start;
+      }
+      .kontakty h2 {
+        margin: 0;
+      }
+      .kontakty dl {
+        margin: 0;
+      }
+      .kontakty dt {
+        color: var(--ink-2);
+        font-size: 14px;
+      }
+      .kontakty dd {
+        margin: 0 0 var(--s4);
+        font: 500 20px/1.3 var(--f-head);
+        letter-spacing: -0.01em;
+      }
+      .podval {
+        padding: var(--s6) 0 var(--s7);
+        color: var(--ink-2);
+        font-size: 13.5px;
+        display: flex;
+        justify-content: space-between;
+        gap: var(--s4);
+        flex-wrap: wrap;
+      }
+
+      /* ---------- Наведение: только мышь на компьютере ---------- */
+      .plitka,
+      .uslugi-foto {
+        transition:
+          transform 0.25s var(--ease-out),
+          box-shadow 0.25s var(--ease-out);
+      }
+      .plitka img,
+      .uslugi-foto img {
+        transform: var(--kadr, scale(1));
+        transition: transform 0.6s var(--ease-out);
+      }
+      .obeshchaniya li {
+        transition: border-color 0.2s var(--ease-out);
+      }
+      .chipsy span,
+      .pole {
+        transition: background 0.2s var(--ease-out);
+      }
+      @media (hover: hover) and (pointer: fine) {
+        .plitka:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 18px 40px rgba(14, 17, 22, 0.14);
         }
-        .fakty li:nth-child(3) {
+        .plitka:hover img {
+          transform: scale(1.05) var(--kadr, scale(1));
+        }
+        .uslugi-foto:hover img {
+          transform: scale(1.04);
+        }
+        .row:hover {
+          background: #f4f5f7;
+        }
+        .row:hover input:not(:checked) {
+          border-color: var(--ink);
+        }
+        .obeshchaniya li:hover {
+          border-top-color: var(--ink);
+        }
+        .chipsy label:hover input:not(:checked) + span {
+          background: #fff;
+        }
+        .pole:hover {
+          background: #f6f7f9;
+          border-radius: 12px;
+        }
+      }
+
+      /* ---------- Телефон и планшет ---------- */
+      @media (max-width: 1100px) {
+        .menu {
           display: none;
-        }
-        .top .wrap > nav,
-        .top .wrap > .btn {
-          display: none;
-        }
-        .tolko-telefon {
-          display: inline-flex;
-          margin-top: var(--s5);
-        }
-        .top .wrap {
-          gap: var(--s4);
-          min-height: 64px;
         }
         .tel {
           margin-left: auto;
-          font-size: 16px;
         }
-        .hero {
-          padding-block: var(--s5) var(--s6);
+        .polya {
+          grid-template-columns: 1fr 1fr;
         }
-        .hero .wrap {
-          grid-template-columns: minmax(0, 1fr);
-          gap: var(--s5);
+        .pole:nth-child(2) {
+          border-right: 0;
+        }
+        .pole:nth-child(3) {
+          border-right: 1px solid var(--line);
+        }
+        .zapis .btn {
+          margin: 8px 0 0 10px;
+        }
+        .obeshchaniya {
+          grid-template-columns: 1fr 1fr;
+        }
+        .bento {
+          grid-template-columns: 1fr 1fr;
+          grid-template-rows: 340px 260px;
+        }
+        .plitka.bolshaya,
+        .plitka.shirokaya {
+          grid-row: auto;
+          grid-column: span 2;
+        }
+      }
+      @media (max-width: 760px) {
+        .wrap {
+          padding-inline: 16px;
+        }
+        .top .wrap {
+          min-height: 64px;
+          gap: var(--s4);
+        }
+        .top .btn {
+          min-height: 44px;
+          padding: 0 18px;
+          font-size: 15px;
+        }
+        .tel {
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          background: #e4e6ea;
+          align-items: center;
+          justify-content: center;
+        }
+        .tel-nomer {
+          display: none;
+        }
+        .tel-ikon {
+          display: block;
+        }
+        .logo span {
+          display: none;
+        }
+        .tel small {
+          font-size: 12px;
+        }
+        .kadr {
+          min-height: 0;
+          padding: var(--s6) var(--s5) 250px;
+          border-radius: 22px;
+        }
+        .kadr::before {
+          top: auto;
+          bottom: 36px;
+          height: 230px;
+          left: -40px;
+          right: -60px;
+          background-position: 55% 62%;
+          background-size: auto 150%;
+          -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 30%);
+          mask-image: linear-gradient(180deg, transparent 0, #000 30%);
         }
         h1 {
-          margin-top: 0;
+          font-size: 38px;
+          letter-spacing: -0.03em;
         }
         .lead {
-          font-size: 18px;
+          font-size: 17px;
         }
-        .pole {
-          grid-template-columns: minmax(0, 1fr);
-          gap: 2px;
+        .simptomy {
+          padding-top: var(--s5);
+          margin-top: 0;
+        }
+        .chipsy span {
+          padding: 0 14px;
+          font-size: 14.5px;
+        }
+        .zapis {
+          margin: -40px 10px 0;
+          padding: 8px;
+        }
+        .polya {
+          grid-template-columns: 1fr;
+        }
+        .pole input,
+        .pole select {
+          min-height: 44px;
+        }
+        .pole,
+        .pole:nth-child(3) {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+          padding: 8px 12px;
+        }
+        .zapis .btn {
+          margin: 10px 0 0;
+          width: 100%;
+        }
+        .pod-zapisyu {
+          padding: 12px 6px 4px;
+          border-top: 0;
+          margin-top: 0;
+        }
+        .otvet {
+          padding: 0 6px 6px;
+        }
+        .obeshchaniya {
+          grid-template-columns: 1fr;
+          gap: var(--s4);
+          padding-block: var(--s7) var(--s5);
+        }
+        .razdel {
+          padding-block: var(--s7);
+        }
+        .uslugi-setka {
+          grid-template-columns: 1fr;
+        }
+        .uslugi-foto {
+          min-height: 300px;
+        }
+        .prays {
+          padding: var(--s5);
+        }
+        .row b {
+          font-size: 17px;
         }
         .row {
-          grid-template-columns: 36px minmax(0, 1fr);
-          padding: var(--s4);
+          grid-template-columns: 28px minmax(0, 1fr);
+          row-gap: 4px;
         }
         .row .cena {
           grid-column: 2;
-          text-align: left;
+        }
+        .itogo .btn {
+          width: 100%;
+        }
+        .bento {
+          grid-template-columns: 1fr;
+          grid-template-rows: none;
+          grid-auto-rows: minmax(260px, auto);
+        }
+        .plitka.bolshaya,
+        .plitka.shirokaya {
+          grid-column: auto;
+        }
+        .plitka {
+          padding: var(--s5);
+        }
+        .plitka.razdelnaya {
+          padding-bottom: 220px;
+        }
+        .plitka.razdelnaya img {
+          left: 0;
+          width: 100%;
+          top: auto;
+          height: 200px;
+        }
+        .plitka.razdelnaya > div {
+          max-width: none;
+        }
+        .kontakty {
+          grid-template-columns: 1fr;
+          padding: var(--s6) var(--s5);
+          gap: var(--s5);
         }
       }
       @media (prefers-reduced-motion: reduce) {
@@ -479,27 +911,36 @@
     </style>
   </head>
   <body>
-    <div class="fakty">
-      <ul>
-        <li>ежедневно 9:00–21:00</li>
-        <li>цена — в заказ-наряде до работ</li>
-        <li>адрес вашего сервиса</li>
-      </ul>
-    </div>
     <header class="top">
       <div class="wrap">
         <a class="logo" href="#" aria-label="Бокс 16 — на главную"
-          ><b>БОКС 16</b><small>автосервис<br />Казань</small></a
+          ><b>Бокс 16</b><span>автосервис<br />в Казани</span></a
         >
         <nav aria-label="Разделы">
           <ul class="menu">
             <li><a href="#uslugi">Услуги и цены</a></li>
-            <li><a href="#uslugi">Как работаем</a></li>
-            <li><a href="#uslugi">Отзывы</a></li>
-            <li><a href="#uslugi">Контакты</a></li>
+            <li><a href="#kak">Как работаем</a></li>
+            <li><a href="#kontakty">Контакты</a></li>
           </ul>
         </nav>
-        <a class="tel" href="tel:+78430000000">+7 843 000-00-00</a>
+        <a
+          class="tel"
+          href="tel:+78430000000"
+          aria-label="Позвонить: +7 843 000-00-00"
+          ><span class="tel-nomer"
+            >+7 843 000-00-00<small>сегодня до 21:00</small></span
+          ><svg
+            class="tel-ikon"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1z"
+              fill="currentColor"
+            /></svg
+        ></a>
         <a class="btn" href="#zayavka">Записаться</a>
       </div>
     </header>
@@ -507,148 +948,316 @@
     <main>
       <section class="hero">
         <div class="wrap">
-          <div>
-            <h1>Цена ремонта&nbsp;— до начала работ, в&nbsp;заказ-наряде</h1>
+          <div class="kadr">
+            <span class="nad">Осмотр перед ремонтом — бесплатно</span>
+            <h1>Цена ремонта — до&nbsp;начала работ</h1>
             <p class="lead">
-              Смотрим машину, пишем в бланк каждую работу и деталь. Сверх бланка&nbsp;— только с вашего согласия по телефону.
+              Смотрим машину и&nbsp;пишем в&nbsp;заказ‑наряд каждую работу
+              и&nbsp;деталь. Сверх наряда&nbsp;— только с&nbsp;вашего согласия
+              по&nbsp;телефону.
             </p>
-            <a class="btn tolko-telefon" href="#zayavka">Записаться</a>
-          </div>
-          <form
-            class="blank"
-            id="zayavka"
-            aria-labelledby="z-h"
-            onsubmit="event.preventDefault(); alert('Это пример страницы. На настоящем сайте заявка придёт вам на почту или в Telegram.')"
-          >
-            <h2 id="z-h">Заявка на ремонт <span>заказ-наряд</span></h2>
-            <div class="pole">
-              <label for="z-mashina">Машина</label
-              ><input
-                id="z-mashina"
-                name="mashina"
-                placeholder="например, Kia Rio 2019"
-                autocomplete="off"
-              />
-            </div>
-            <!-- Выбор по симптому — приём калькулятора National Grid (Awwwards), перенесён из варианта Б -->
-            <fieldset class="pole simptom">
-              <legend>Что беспокоит</legend>
-              <div class="chipsy">
+            <div class="simptomy">
+              <p id="chto-h">Что беспокоит?</p>
+              <div class="chipsy" role="radiogroup" aria-labelledby="chto-h">
                 <label
-                  ><input type="radio" name="chto" value="0" checked /><span
-                    >Пора на ТО</span
-                  ></label
+                  ><input
+                    type="radio"
+                    name="chto"
+                    value="0"
+                    form="zayavka"
+                    checked
+                  /><span>Пора на ТО</span></label
                 >
                 <label
-                  ><input type="radio" name="chto" value="1" /><span
-                    >Стучит на ямах</span
-                  ></label
+                  ><input
+                    type="radio"
+                    name="chto"
+                    value="1"
+                    form="zayavka"
+                  /><span>Стучит на ямах</span></label
                 >
                 <label
-                  ><input type="radio" name="chto" value="2" /><span
-                    >Горит лампа</span
-                  ></label
+                  ><input
+                    type="radio"
+                    name="chto"
+                    value="2"
+                    form="zayavka"
+                  /><span>Горит лампа</span></label
                 >
                 <label
-                  ><input type="radio" name="chto" value="3" /><span
-                    >Тянет в сторону</span
-                  ></label
+                  ><input
+                    type="radio"
+                    name="chto"
+                    value="3"
+                    form="zayavka"
+                  /><span>Тянет в сторону</span></label
                 >
                 <label
-                  ><input type="radio" name="chto" value="4" /><span
-                    >Скрипят тормоза</span
-                  ></label
+                  ><input
+                    type="radio"
+                    name="chto"
+                    value="4"
+                    form="zayavka"
+                  /><span>Скрипят тормоза</span></label
                 >
                 <label
-                  ><input type="radio" name="chto" value="5" /><span
-                    >Другое</span
-                  ></label
+                  ><input
+                    type="radio"
+                    name="chto"
+                    value="5"
+                    form="zayavka"
+                  /><span>Другое</span></label
                 >
               </div>
-              <p class="sdelaem" id="sdelaem" aria-live="polite">
-                Сделаем: ТО по регламенту — масло, фильтры, осмотр ·
+            </div>
+          </div>
+
+          <form class="zapis" id="zayavka" aria-label="Запись на ремонт">
+            <div class="polya">
+              <div class="pole">
+                <label for="z-mashina">Машина</label>
+                <input
+                  id="z-mashina"
+                  name="mashina"
+                  placeholder="Kia Rio 2019"
+                  autocomplete="off"
+                />
+              </div>
+              <div class="pole">
+                <label for="z-kogda">Когда удобно</label>
+                <select id="z-kogda" name="kogda">
+                  <option>Сегодня</option>
+                  <option>Завтра</option>
+                  <option>На этой неделе</option>
+                </select>
+              </div>
+              <div class="pole">
+                <label for="z-tel">Телефон</label>
+                <input
+                  id="z-tel"
+                  name="tel"
+                  type="tel"
+                  autocomplete="tel"
+                  placeholder="+7 ___ ___-__-__"
+                  required
+                />
+              </div>
+              <button class="btn" type="submit">Записаться</button>
+            </div>
+            <div class="pod-zapisyu">
+              <p
+                class="sdelaem"
+                id="sdelaem"
+                aria-live="polite"
+                style="margin: 0"
+              >
+                Сделаем: ТО по регламенту — масло, фильтры, осмотр,
                 <b>от 2 500 ₽</b>
               </p>
-            </fieldset>
-            <div class="pole">
-              <label for="z-kogda">Когда удобно</label>
-              <select id="z-kogda" name="kogda">
-                <option>Сегодня</option>
-                <option>Завтра</option>
-                <option>На этой неделе</option>
-              </select>
+              <label class="soglasie"
+                ><input type="checkbox" required /><span
+                  >Согласен на обработку данных по
+                  <a href="#">политике</a></span
+                ></label
+              >
             </div>
-            <div class="pole">
-              <label for="z-tel">Телефон</label
-              ><input
-                id="z-tel"
-                name="tel"
-                type="tel"
-                autocomplete="tel"
-                placeholder="+7 ___ ___-__-__"
-              />
-            </div>
-            <label class="soglasie"
-              ><input type="checkbox" required />
-              <span
-                >Согласен на обработку персональных данных по
-                <a href="#">политике</a></span
-              ></label
-            >
-            <div class="otpravka">
-              <button class="btn" type="submit">Записаться</button>
-              <ul class="obeshchaniya">
-                <li>осмотр до ремонта — бесплатно</li>
-                <li>цену согласуем до работ</li>
-              </ul>
-            </div>
+            <p class="otvet" id="otvet" role="status"></p>
           </form>
+
+          <ul class="obeshchaniya">
+            <li>
+              <b>Цена до работ</b
+              ><span
+                >Сумма в заказ-наряде ещё до того, как мастер возьмёт
+                ключ.</span
+              >
+            </li>
+            <li>
+              <b>Без сюрпризов</b
+              ><span
+                >Нашли что-то ещё — звоним и спрашиваем. Без согласия не
+                делаем.</span
+              >
+            </li>
+            <li>
+              <b>Старые детали — вам</b
+              ><span
+                >Снятые детали отдаём или фотографируем, если не нужны.</span
+              >
+            </li>
+            <li>
+              <b>Каждый день</b
+              ><span
+                >С 9:00 до 21:00, запись на сегодня, если есть свободный
+                подъёмник.</span
+              >
+            </li>
+          </ul>
         </div>
       </section>
 
-      <section class="uslugi" id="uslugi">
+      <section class="razdel" id="uslugi">
         <div class="wrap">
           <h2>Услуги и цены</h2>
           <p class="pod">
-            Отметьте, что нужно, — внизу посчитается ориентир. Точную сумму
-            впишем в заказ-наряд после осмотра.
+            Отметьте, что нужно, — посчитаем ориентир. Точную сумму впишем в
+            заказ-наряд после осмотра.
           </p>
-          <form class="tablica" id="forma" aria-label="Выбор услуг">
-            <div class="stamp" aria-hidden="true">Цена согласована</div>
-            <label class="row"
-              ><input type="checkbox" value="2500" /><span
-                ><b>Техобслуживание</b
-                ><small>масло, фильтры, осмотр по регламенту</small></span
-              ><span class="cena">от 2 500 ₽</span></label
-            >
-            <label class="row"
-              ><input type="checkbox" value="900" /><span
-                ><b>Диагностика ходовой</b
-                ><small>на подъёмнике, с фото неисправностей</small></span
-              ><span class="cena">от 900 ₽</span></label
-            >
-            <label class="row"
-              ><input type="checkbox" value="1200" /><span
-                ><b>Компьютерная диагностика</b
-                ><small>ошибки, датчики, расшифровка словами</small></span
-              ><span class="cena">от 1 200 ₽</span></label
-            >
-            <label class="row"
-              ><input type="checkbox" value="1600" /><span
-                ><b>Шиномонтаж</b><small>4 колеса, балансировка</small></span
-              ><span class="cena">от 1 600 ₽</span></label
-            >
-            <div class="itogo">
-              <p>Итого, ориентир <output id="itogo">0 ₽</output></p>
-              <a class="btn" href="#zayavka">Записаться с этим списком</a>
-            </div>
-          </form>
-          <p class="primechanie">
-            Демо-макет: цены, адрес и обещания примерные — подставим ваши.
+          <div class="uslugi-setka">
+            <figure class="uslugi-foto" style="margin: 0">
+              <img
+                src="img/uslugi-master.webp"
+                alt="Мастер осматривает машину на подъёмнике"
+                loading="lazy"
+              />
+              <figcaption>
+                <b>Подъёмник, а не яма</b>Смотрим подвеску снизу при хорошем
+                свете и показываем вам, что нашли.
+              </figcaption>
+            </figure>
+            <form class="prays" id="forma" aria-label="Выбор услуг">
+              <label class="row"
+                ><input type="checkbox" value="2500" /><span
+                  ><b>Техобслуживание</b
+                  ><small>масло, фильтры, осмотр по регламенту</small></span
+                ><span class="cena">от 2 500 ₽</span></label
+              >
+              <label class="row"
+                ><input type="checkbox" value="900" /><span
+                  ><b>Диагностика ходовой</b
+                  ><small>на подъёмнике, с фото неисправностей</small></span
+                ><span class="cena">от 900 ₽</span></label
+              >
+              <label class="row"
+                ><input type="checkbox" value="1200" /><span
+                  ><b>Компьютерная диагностика</b
+                  ><small>ошибки, датчики, расшифровка словами</small></span
+                ><span class="cena">от 1 200 ₽</span></label
+              >
+              <label class="row"
+                ><input type="checkbox" value="1500" /><span
+                  ><b>Развал-схождение</b
+                  ><small>3D-стенд, распечатка до и после</small></span
+                ><span class="cena">от 1 500 ₽</span></label
+              >
+              <label class="row"
+                ><input type="checkbox" value="1600" /><span
+                  ><b>Шиномонтаж</b><small>4 колеса, балансировка</small></span
+                ><span class="cena">от 1 600 ₽</span></label
+              >
+              <div class="itogo">
+                <p>Ориентир<output id="itogo">Отметьте услуги</output></p>
+                <a class="btn" href="#zayavka">Записаться с этим списком</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="razdel" id="kak">
+        <div class="wrap">
+          <h2>Как работаем</h2>
+          <p class="pod">
+            Три шага, и на каждом вы знаете, что происходит с машиной и сколько
+            это стоит.
           </p>
+          <div class="bento">
+            <article class="plitka foto bolshaya">
+              <img
+                src="img/shag1-osmotr.webp"
+                alt=""
+                loading="lazy"
+                style="object-position: 50% 70%"
+              />
+              <div>
+                <div class="shag">Шаг 1</div>
+                <h3>Осмотр — бесплатно</h3>
+                <p>
+                  Мастер смотрит машину при вас и называет, что нашёл. Решение
+                  за вами.
+                </p>
+              </div>
+            </article>
+            <article class="plitka temnaya foto">
+              <img
+                src="img/shag2-planshet.webp"
+                alt=""
+                loading="lazy"
+                style="--kadr: scale(1.35) translate(8%, 12%)"
+              />
+              <div>
+                <div class="shag">Шаг 2</div>
+                <h3>Заказ-наряд с ценой</h3>
+                <p>
+                  Каждая работа и деталь — отдельной строкой. Сверх наряда —
+                  только после звонка вам.
+                </p>
+                <a class="btn svetlaya" href="#zayavka">Записаться</a>
+              </div>
+            </article>
+            <article class="plitka foto">
+              <img
+                src="img/shag3-tormoz.webp"
+                alt=""
+                loading="lazy"
+              />
+              <div>
+                <div class="shag">Шаг 3</div>
+                <h3>Ремонт и отчёт</h3>
+                <p>Фото снятых деталей и гарантия на работу.</p>
+              </div>
+            </article>
+            <article class="plitka shirokaya razdelnaya">
+              <img
+                src="img/ozhidanie-boks.webp"
+                alt=""
+                loading="lazy"
+              />
+              <div>
+                <div class="shag">Пока ждёте</div>
+                <h3>Можно уехать по делам</h3>
+                <p>
+                  Позвоним, когда машина будет готова. Или подождите у нас —
+                  есть кофе и Wi‑Fi.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="razdel" id="kontakty">
+        <div class="wrap">
+          <div class="kontakty">
+            <h2>Приезжайте или позвоните</h2>
+            <dl>
+              <dt>Адрес</dt>
+              <dd>адрес вашего сервиса, Казань</dd>
+              <dt>Часы</dt>
+              <dd>Ежедневно, 9:00–21:00</dd>
+            </dl>
+            <dl>
+              <dt>Телефон</dt>
+              <dd>
+                <a href="tel:+78430000000" style="text-decoration: none"
+                  >+7 843 000-00-00</a
+                >
+              </dd>
+              <dt>&nbsp;</dt>
+              <dd><a class="btn" href="#zayavka">Записаться онлайн</a></dd>
+            </dl>
+          </div>
+          <div class="podval">
+            <span
+              >Демо-страница: цены, адрес и обещания примерные — подставим ваши.
+              Фото: Unsplash.</span
+            >
+            <span>Бокс 16 · пример</span>
+          </div>
         </div>
       </section>
     </main>
+
     <script>
       const f = document.getElementById("forma"),
         out = document.getElementById("itogo");
@@ -657,15 +1266,14 @@
           (a, i) => a + +i.value,
           0,
         );
-        out.textContent = s.toLocaleString("ru-RU") + " ₽";
+        out.textContent = s
+          ? "от " + s.toLocaleString("ru-RU") + " ₽"
+          : "Отметьте услуги";
       });
       const SIM = [
         ["ТО по регламенту — масло, фильтры, осмотр", "от 2 500 ₽"],
         ["осмотр подвески на подъёмнике, фото изношенного", "от 900 ₽"],
-        [
-          "прочитаем ошибку и расскажем словами, насколько срочно",
-          "от 1 200 ₽",
-        ],
+        ["прочитаем ошибку и скажем словами, насколько срочно", "от 1 200 ₽"],
         ["проверим развал-схождение и рулевые тяги", "от 1 500 ₽"],
         ["проверим колодки, диски и тормозную жидкость", "от 700 ₽"],
         ["мастер перезвонит и уточнит", "цена после осмотра"],
@@ -674,9 +1282,16 @@
         r.addEventListener("change", () => {
           const [chto, cena] = SIM[+r.value];
           document.getElementById("sdelaem").innerHTML =
-            `Сделаем: ${chto} · <b>${cena}</b>`;
+            `Сделаем: ${chto}, <b>${cena}</b>`;
         }),
       );
+      document.getElementById("zayavka").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const o = document.getElementById("otvet");
+        o.textContent =
+          "Это пример страницы. На настоящем сайте заявка придёт мастеру в Telegram, и он перезвонит за 15 минут.";
+        o.classList.add("vidno");
+      });
     </script>
   </body>
 </html>
