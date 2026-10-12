@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Пример сайта автосервиса — Бокс 16</title>
+    <meta name="robots" content="noindex" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #f7f9fb;
+        --paper: #ffffff;
+        --ink: #152033;
+        --ink-2: #4d5a6c;
+        --line: #c5d0dc;
+        --line-2: #e3e9ef;
+        --accent: #1d4ed8; /* чернила: только действия */
+        --accent-d: #173ea9;
+        --stamp: #b4232a;
+        --ok: #127a4a;
+        --f-head: "Oswald", sans-serif;
+        --f-body: "Onest", sans-serif;
+        --f-num: "JetBrains Mono", monospace;
+        --s2: 8px;
+        --s3: 12px;
+        --s4: 16px;
+        --s5: 24px;
+        --s6: 32px;
+        --s7: 48px;
+        --s8: 64px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        overflow-x: clip;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font: 400 17px/1.6 var(--f-body);
+        overflow-x: clip;
+      }
+      a {
+        color: inherit;
+      }
+      :focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 3px;
+      }
+      ::selection {
+        background: #c9d8ff;
+      }
+      .wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-inline: 20px;
+      }
+
+      /* Полоска из трёх фактов над шапкой — приём Best California Movers (Awwwards) */
+      .fakty {
+        background: var(--ink);
+        color: #e8edf5;
+        font: 400 14px/1.4 var(--f-num);
+      }
+      .fakty ul {
+        display: flex;
+        justify-content: center;
+        gap: var(--s6);
+        margin: 0;
+        padding: 10px 20px;
+        list-style: none;
+        flex-wrap: wrap;
+      }
+
+      /* Шапка — как верх бланка */
+      .top {
+        background: var(--paper);
+        border-bottom: 2px solid var(--ink);
+      }
+      .top .wrap {
+        display: flex;
+        align-items: center;
+        gap: var(--s6);
+        min-height: 76px;
+      }
+      .top .wrap > * {
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+      }
+      .logo {
+        gap: var(--s3);
+        text-decoration: none;
+      }
+      .logo b {
+        font: 600 26px/1 var(--f-head);
+        letter-spacing: 0.01em;
+      }
+      .logo small {
+        font: 400 12px/1.3 var(--f-num);
+        color: var(--ink-2);
+      }
+      .menu {
+        display: flex;
+        gap: var(--s5);
+        margin: 0 0 0 auto;
+        list-style: none;
+        padding: 0;
+      }
+      nav {
+        margin-left: auto;
+      }
+      .menu a {
+        text-decoration: none;
+        font-weight: 500;
+        padding: 10px 0;
+        display: inline-block;
+      }
+      @media (hover: hover) and (pointer: fine) {
+        .menu a:hover {
+          text-decoration: underline;
+          text-underline-offset: 6px;
+        }
+      }
+      .tel {
+        font: 600 18px/1 var(--f-num);
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 22px;
+        border-radius: 6px;
+        background: var(--accent);
+        color: #fff;
+        font: 600 16px/1 var(--f-body);
+        text-decoration: none;
+        border: 0;
+        cursor: pointer;
+        white-space: nowrap;
+        transition:
+          background 0.15s cubic-bezier(0.23, 1, 0.32, 1),
+          transform 0.1s;
+      }
+      @media (hover: hover) and (pointer: fine) {
+        .btn:hover {
+          background: var(--accent-d);
+        }
+      }
+      .btn:active {
+        transform: translateY(1px);
+      }
+
+      /* Первый экран: слева обещание, справа заявка-бланк (форма в первом экране — Best California Movers) */
+      .hero {
+        padding-block: var(--s7);
+      }
+      .hero .wrap {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
+        gap: var(--s7);
+        align-items: start;
+      }
+      h1 {
+        font: 600 clamp(2.4rem, 3vw + 1.2rem, 4rem)/1.04 var(--f-head);
+        margin: var(--s4) 0 var(--s5);
+        letter-spacing: -0.01em;
+        text-transform: uppercase;
+      }
+      .lead {
+        font-size: 20px;
+        color: var(--ink-2);
+        max-width: 34ch;
+        margin: 0;
+      }
+      .tolko-telefon {
+        display: none;
+      }
+      .blank {
+        background: var(--paper);
+        border: 1.5px solid var(--ink);
+        border-radius: 4px;
+        padding: var(--s5);
+        position: relative;
+        box-shadow: 6px 8px 24px rgba(21, 32, 51, 0.08);
+      }
+      .blank h2 {
+        font: 600 20px/1.2 var(--f-head);
+        text-transform: uppercase;
+        margin: 0 0 var(--s3);
+        display: flex;
+        justify-content: space-between;
+        gap: var(--s3);
+      }
+      .blank h2 span {
+        font: 400 14px/1.4 var(--f-num);
+        text-transform: none;
+        color: var(--ink-2);
+      }
+      .pole {
+        display: grid;
+        grid-template-columns: 128px minmax(0, 1fr);
+        align-items: center;
+        gap: var(--s3);
+        border-top: 1px solid var(--line);
+        padding-block: 10px;
+      }
+      .pole label {
+        font: 400 13px/1.4 var(--f-num);
+        color: var(--ink-2);
+      }
+      .pole input,
+      .pole select {
+        font: 500 16px/1.2 var(--f-body);
+        color: var(--ink);
+        border: 0;
+        border-bottom: 1.5px dashed var(--line);
+        background: transparent;
+        min-height: 44px;
+        padding: 0 4px;
+        width: 100%;
+        border-radius: 0;
+      }
+      .pole input:focus,
+      .pole select:focus {
+        outline: none;
+        border-bottom: 2px solid var(--accent);
+      }
+      .simptom {
+        display: block;
+        border: 0;
+        border-top: 1px solid var(--line);
+        margin: 0;
+        padding: 10px 0 12px;
+        min-inline-size: 0;
+      }
+      .simptom legend {
+        float: left;
+        width: 100%;
+        padding: 0;
+        margin-bottom: 8px;
+        font: 400 13px/1.4 var(--f-num);
+        color: var(--ink-2);
+      }
+      .chipsy {
+        clear: both;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .chipsy label {
+        position: relative;
+      }
+      .chipsy input {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        margin: 0;
+        cursor: pointer;
+      }
+      .chipsy span {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 14px;
+        border: 1.5px dashed var(--line);
+        border-radius: 4px;
+        font: 500 15px/1.2 var(--f-body);
+        cursor: pointer;
+        white-space: nowrap;
+      }
+      .chipsy input:checked + span {
+        border: 1.5px solid var(--accent);
+        background: #eef3ff;
+        color: var(--accent-d);
+      }
+      .chipsy input:focus-visible + span {
+        outline: 3px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .sdelaem {
+        margin: 10px 0 0;
+        font-size: 14px;
+        color: var(--ink-2);
+      }
+      .sdelaem b {
+        color: var(--ink);
+        font-family: var(--f-num);
+        white-space: nowrap;
+      }
+      .soglasie {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        font-size: 14px;
+        color: var(--ink-2);
+        margin: var(--s4) 0;
+      }
+      .soglasie input {
+        width: 20px;
+        height: 20px;
+        margin-top: 2px;
+        accent-color: var(--accent);
+        flex: none;
+      }
+      .otpravka {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--s3) var(--s5);
+      }
+      .obeshchaniya {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+      }
+      .obeshchaniya li::before {
+        content: "✓";
+        color: var(--ok);
+        font-weight: 700;
+        margin-right: 6px;
+      }
+
+      /* Ключевой блок: услуги как строки заказ-наряда */
+      .uslugi {
+        padding-block: var(--s7) var(--s8);
+      }
+      .uslugi h2 {
+        font: 600 clamp(1.9rem, 1.6vw + 1.2rem, 2.6rem)/1.1 var(--f-head);
+        text-transform: uppercase;
+        margin: 0 0 var(--s3);
+      }
+      .uslugi .pod {
+        color: var(--ink-2);
+        margin: 0 0 var(--s6);
+        max-width: 60ch;
+      }
+      .tablica {
+        background: var(--paper);
+        border: 1.5px solid var(--ink);
+        border-radius: 4px;
+        position: relative;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 56px minmax(0, 1fr) 150px;
+        align-items: center;
+        gap: var(--s4);
+        padding: var(--s4) var(--s5);
+        border-top: 1px solid var(--line-2);
+        cursor: pointer;
+      }
+      .row:first-child {
+        border-top: 0;
+      }
+      .row input {
+        width: 24px;
+        height: 24px;
+        accent-color: var(--accent);
+        margin: 0;
+        cursor: pointer;
+      }
+      .row b {
+        display: block;
+        font-weight: 600;
+      }
+      .row small {
+        color: var(--ink-2);
+        font-size: 15px;
+      }
+      .row .cena {
+        font: 600 17px/1.2 var(--f-num);
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+      .itogo {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--s4);
+        flex-wrap: wrap;
+        border-top: 2px solid var(--ink);
+        padding: var(--s5);
+      }
+      .itogo p {
+        margin: 0;
+        font: 600 20px/1.2 var(--f-head);
+        text-transform: uppercase;
+      }
+      .itogo output {
+        font: 600 24px/1 var(--f-num);
+        margin-left: var(--s3);
+      }
+      .stamp {
+        position: absolute;
+        right: 24px;
+        top: -22px;
+        transform: rotate(-6deg);
+        border: 2.5px solid var(--stamp);
+        color: var(--stamp);
+        background: var(--paper);
+        font: 600 14px/1.2 var(--f-head);
+        text-transform: uppercase;
+        padding: 6px 12px;
+        border-radius: 4px;
+      }
+      .primechanie {
+        font: 400 13px/1.5 var(--f-num);
+        color: var(--ink-2);
+        margin-top: var(--s3);
+      }
+
+      @media (max-width: 900px) {
+        .fakty ul {
+          gap: 4px var(--s4);
+          justify-content: flex-start;
+          font-size: 13px;
+        }
+        .fakty li:nth-child(3) {
+          display: none;
+        }
+        .top .wrap > nav,
+        .top .wrap > .btn {
+          display: none;
+        }
+        .tolko-telefon {
+          display: inline-flex;
+          margin-top: var(--s5);
+        }
+        .top .wrap {
+          gap: var(--s4);
+          min-height: 64px;
+        }
+        .tel {
+          margin-left: auto;
+          font-size: 16px;
+        }
+        .hero {
+          padding-block: var(--s5) var(--s6);
+        }
+        .hero .wrap {
+          grid-template-columns: minmax(0, 1fr);
+          gap: var(--s5);
+        }
+        h1 {
+          margin-top: 0;
+        }
+        .lead {
+          font-size: 18px;
+        }
+        .pole {
+          grid-template-columns: minmax(0, 1fr);
+          gap: 2px;
+        }
+        .row {
+          grid-template-columns: 36px minmax(0, 1fr);
+          padding: var(--s4);
+        }
+        .row .cena {
+          grid-column: 2;
+          text-align: left;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="fakty">
+      <ul>
+        <li>ежедневно 9:00–21:00</li>
+        <li>цена — в заказ-наряде до работ</li>
+        <li>адрес вашего сервиса</li>
+      </ul>
+    </div>
+    <header class="top">
+      <div class="wrap">
+        <a class="logo" href="#" aria-label="Бокс 16 — на главную"
+          ><b>БОКС 16</b><small>автосервис<br />Казань</small></a
+        >
+        <nav aria-label="Разделы">
+          <ul class="menu">
+            <li><a href="#uslugi">Услуги и цены</a></li>
+            <li><a href="#uslugi">Как работаем</a></li>
+            <li><a href="#uslugi">Отзывы</a></li>
+            <li><a href="#uslugi">Контакты</a></li>
+          </ul>
+        </nav>
+        <a class="tel" href="tel:+78430000000">+7 843 000-00-00</a>
+        <a class="btn" href="#zayavka">Записаться</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="wrap">
+          <div>
+            <h1>Цена ремонта — до начала работ, в заказ-наряде</h1>
+            <p class="lead">
+              Смотрим машину, пишем в бланк каждую работу и деталь. Сверх бланка
+              — только с вашего согласия по телефону.
+            </p>
+            <a class="btn tolko-telefon" href="#zayavka">Записаться</a>
+          </div>
+          <form
+            class="blank"
+            id="zayavka"
+            aria-labelledby="z-h"
+            onsubmit="event.preventDefault(); alert('Это пример страницы. На настоящем сайте заявка придёт вам на почту или в Telegram.')"
+          >
+            <h2 id="z-h">Заявка на ремонт <span>заказ-наряд</span></h2>
+            <div class="pole">
+              <label for="z-mashina">Машина</label
+              ><input
+                id="z-mashina"
+                name="mashina"
+                placeholder="например, Kia Rio 2019"
+                autocomplete="off"
+              />
+            </div>
+            <!-- Выбор по симптому — приём калькулятора National Grid (Awwwards), перенесён из варианта Б -->
+            <fieldset class="pole simptom">
+              <legend>Что беспокоит</legend>
+              <div class="chipsy">
+                <label
+                  ><input type="radio" name="chto" value="0" checked /><span
+                    >Пора на ТО</span
+                  ></label
+                >
+                <label
+                  ><input type="radio" name="chto" value="1" /><span
+                    >Стучит на ямах</span
+                  ></label
+                >
+                <label
+                  ><input type="radio" name="chto" value="2" /><span
+                    >Горит лампа</span
+                  ></label
+                >
+                <label
+                  ><input type="radio" name="chto" value="3" /><span
+                    >Тянет в сторону</span
+                  ></label
+                >
+                <label
+                  ><input type="radio" name="chto" value="4" /><span
+                    >Скрипят тормоза</span
+                  ></label
+                >
+                <label
+                  ><input type="radio" name="chto" value="5" /><span
+                    >Другое</span
+                  ></label
+                >
+              </div>
+              <p class="sdelaem" id="sdelaem" aria-live="polite">
+                Сделаем: ТО по регламенту — масло, фильтры, осмотр ·
+                <b>от 2 500 ₽</b>
+              </p>
+            </fieldset>
+            <div class="pole">
+              <label for="z-kogda">Когда удобно</label>
+              <select id="z-kogda" name="kogda">
+                <option>Сегодня</option>
+                <option>Завтра</option>
+                <option>На этой неделе</option>
+              </select>
+            </div>
+            <div class="pole">
+              <label for="z-tel">Телефон</label
+              ><input
+                id="z-tel"
+                name="tel"
+                type="tel"
+                autocomplete="tel"
+                placeholder="+7 ___ ___-__-__"
+              />
+            </div>
+            <label class="soglasie"
+              ><input type="checkbox" required />
+              <span
+                >Согласен на обработку персональных данных по
+                <a href="#">политике</a></span
+              ></label
+            >
+            <div class="otpravka">
+              <button class="btn" type="submit">Записаться</button>
+              <ul class="obeshchaniya">
+                <li>осмотр до ремонта — бесплатно</li>
+                <li>цену согласуем до работ</li>
+              </ul>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="uslugi" id="uslugi">
+        <div class="wrap">
+          <h2>Услуги и цены</h2>
+          <p class="pod">
+            Отметьте, что нужно, — внизу посчитается ориентир. Точную сумму
+            впишем в заказ-наряд после осмотра.
+          </p>
+          <form class="tablica" id="forma" aria-label="Выбор услуг">
+            <div class="stamp" aria-hidden="true">Цена согласована</div>
+            <label class="row"
+              ><input type="checkbox" value="2500" /><span
+                ><b>Техобслуживание</b
+                ><small>масло, фильтры, осмотр по регламенту</small></span
+              ><span class="cena">от 2 500 ₽</span></label
+            >
+            <label class="row"
+              ><input type="checkbox" value="900" /><span
+                ><b>Диагностика ходовой</b
+                ><small>на подъёмнике, с фото неисправностей</small></span
+              ><span class="cena">от 900 ₽</span></label
+            >
+            <label class="row"
+              ><input type="checkbox" value="1200" /><span
+                ><b>Компьютерная диагностика</b
+                ><small>ошибки, датчики, расшифровка словами</small></span
+              ><span class="cena">от 1 200 ₽</span></label
+            >
+            <label class="row"
+              ><input type="checkbox" value="1600" /><span
+                ><b>Шиномонтаж</b><small>4 колеса, балансировка</small></span
+              ><span class="cena">от 1 600 ₽</span></label
+            >
+            <div class="itogo">
+              <p>Итого, ориентир <output id="itogo">0 ₽</output></p>
+              <a class="btn" href="#zayavka">Записаться с этим списком</a>
+            </div>
+          </form>
+          <p class="primechanie">
+            Демо-макет: цены, адрес и обещания примерные — подставим ваши.
+          </p>
+        </div>
+      </section>
+    </main>
+    <script>
+      const f = document.getElementById("forma"),
+        out = document.getElementById("itogo");
+      f.addEventListener("change", () => {
+        const s = [...f.querySelectorAll("input:checked")].reduce(
+          (a, i) => a + +i.value,
+          0,
+        );
+        out.textContent = s.toLocaleString("ru-RU") + " ₽";
+      });
+      const SIM = [
+        ["ТО по регламенту — масло, фильтры, осмотр", "от 2 500 ₽"],
+        ["осмотр подвески на подъёмнике, фото изношенного", "от 900 ₽"],
+        [
+          "прочитаем ошибку и расскажем словами, насколько срочно",
+          "от 1 200 ₽",
+        ],
+        ["проверим развал-схождение и рулевые тяги", "от 1 500 ₽"],
+        ["проверим колодки, диски и тормозную жидкость", "от 700 ₽"],
+        ["мастер перезвонит и уточнит", "цена после осмотра"],
+      ];
+      document.querySelectorAll("input[name=chto]").forEach((r) =>
+        r.addEventListener("change", () => {
+          const [chto, cena] = SIM[+r.value];
+          document.getElementById("sdelaem").innerHTML =
+            `Сделаем: ${chto} · <b>${cena}</b>`;
+        }),
+      );
+    </script>
+  </body>
+</html>
