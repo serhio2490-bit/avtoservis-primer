@@ -511,7 +511,7 @@
         appearance: none;
         width: 26px;
         height: 26px;
-        border-radius: 50%;
+        border-radius: 8px;
         border: 1.5px solid #b8bec8;
         margin: 0;
         cursor: pointer;
@@ -645,30 +645,245 @@
         align-self: flex-start;
       }
 
+      /* ---------- Доверие: отзывы, мастера, гарантия ---------- */
+      .doverie {
+        display: grid;
+        grid-template-columns: 1.25fr 1fr 0.85fr;
+        grid-auto-rows: minmax(440px, auto);
+        gap: var(--s5);
+      }
+      .reyting {
+        list-style: none;
+        margin: var(--s4) 0 var(--s5);
+        padding: 0;
+      }
+      .reyting li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--s4);
+        padding: 14px 0;
+        border-bottom: 1px solid var(--line);
+      }
+      .reyting li {
+        flex-wrap: wrap;
+        row-gap: 6px;
+      }
+      .reyting li > b {
+        white-space: nowrap;
+        font: 500 19px/1.2 var(--f-head);
+        letter-spacing: -0.01em;
+      }
+      .reyting li > span {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--ink-2);
+        font-size: 14px;
+        white-space: nowrap;
+      }
+      .zvezdy {
+        width: 108px;
+        height: 18px;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4L2.8 9.5l6.4-.8z' fill='none' stroke='%239aa1ac' stroke-width='1.6' stroke-linejoin='round'/%3E%3C/svg%3E")
+          repeat-x 0 0 / 21.6px 18px;
+      }
+      .plitka .mesto {
+        display: inline-flex;
+        align-self: flex-start;
+        margin-top: auto;
+        padding: 5px 12px;
+        border: 1px dashed #9aa1ac;
+        border-radius: 999px;
+        font-size: 13.5px;
+        line-height: 1.3;
+        color: var(--ink-2);
+      }
+      .plitka.foto .mesto {
+        border-color: rgba(255, 255, 255, 0.6);
+        color: #fff;
+        background: rgba(14, 17, 22, 0.45);
+      }
+      .garantiya {
+        font: 500 76px/1 var(--f-head);
+        letter-spacing: -0.04em;
+        margin: var(--s4) 0 var(--s3);
+        font-variant-numeric: tabular-nums;
+      }
+      .plitka .garantiya {
+        font-size: 76px;
+        opacity: 1;
+      }
+      .garantiya small {
+        font-size: 30px;
+        letter-spacing: -0.02em;
+        margin-left: 6px;
+      }
+      .plitka .snoska {
+        margin-top: auto;
+        padding-top: var(--s4);
+        border-top: 1px solid rgba(255, 255, 255, 0.18);
+        font-size: 14.5px;
+        opacity: 0.75;
+      }
+
+      /* ---------- Вопросы ---------- */
+      .voprosy {
+        display: grid;
+        grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+        gap: var(--s7);
+        align-items: start;
+      }
+      .voprosy-spisok {
+        background: var(--paper);
+        border-radius: var(--r-l);
+        padding: var(--s3) var(--s6);
+      }
+      .voprosy-spisok details + details {
+        border-top: 1px solid var(--line);
+      }
+      .voprosy-spisok summary {
+        list-style: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--s4);
+        min-height: 44px;
+        padding: 20px 0;
+        font: 500 19px/1.3 var(--f-head);
+        letter-spacing: -0.01em;
+      }
+      .voprosy-spisok summary::-webkit-details-marker {
+        display: none;
+      }
+      .voprosy-spisok summary::after {
+        content: "";
+        flex: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #eef0f3
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Cpath d='M6 1v10M1 6h10' stroke='%230e1116' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E")
+          no-repeat center;
+        transition:
+          transform 0.25s var(--ease-out),
+          background-color 0.2s;
+      }
+      .voprosy-spisok details[open] summary::after {
+        transform: rotate(45deg);
+      }
+      .voprosy-spisok details p {
+        margin: -4px 0 22px;
+        color: var(--ink-2);
+        max-width: 36em;
+      }
+
       /* ---------- Контакты ---------- */
       .kontakty {
         background: var(--paper);
         border-radius: var(--r-l);
-        padding: var(--s8);
+        padding: var(--s7);
         display: grid;
-        grid-template-columns: 1.2fr 1fr 1fr;
-        gap: var(--s6);
-        align-items: start;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+        gap: var(--s7);
+        align-items: stretch;
       }
       .kontakty h2 {
-        margin: 0;
+        margin: 0 0 var(--s6);
       }
       .kontakty dl {
         margin: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--s5) var(--s6);
       }
       .kontakty dt {
         color: var(--ink-2);
         font-size: 14px;
       }
       .kontakty dd {
-        margin: 0 0 var(--s4);
+        margin: 2px 0 0;
         font: 500 20px/1.3 var(--f-head);
         letter-spacing: -0.01em;
+      }
+      .kontakty dd a {
+        text-decoration: none;
+      }
+      .svyaz {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--s2);
+        margin-top: var(--s6);
+      }
+      .msg {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 52px;
+        padding: 0 22px 0 16px;
+        border-radius: 999px;
+        background: #eef0f3;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+      .msg svg {
+        width: 22px;
+        height: 22px;
+        flex: none;
+      }
+      .kontakty .otvet {
+        margin: var(--s3) 0 0;
+        padding: 0;
+      }
+      .karta {
+        position: relative;
+        min-height: 400px;
+        border-radius: var(--r-m);
+        overflow: hidden;
+        background: var(--studio);
+      }
+      .karta iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        pointer-events: none;
+        filter: grayscale(1) contrast(0.95);
+      }
+      .karta .mesto {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.92);
+        border: 1px dashed #9aa1ac;
+        font-size: 13.5px;
+        color: var(--ink-2);
+      }
+      .karta.vklyuchena iframe {
+        pointer-events: auto;
+      }
+      .karta-vklyuchit {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        border: 0;
+        padding: 0;
+        background: transparent;
+        cursor: pointer;
+      }
+      .karta.vklyuchena .karta-vklyuchit {
+        display: none;
+      }
+      .karta .btn {
+        position: absolute;
+        left: 16px;
+        bottom: 44px;
+        box-shadow: 0 8px 24px rgba(14, 17, 22, 0.18);
       }
       .podval {
         padding: var(--s6) 0 var(--s7);
@@ -712,6 +927,10 @@
         }
         .row:hover {
           background: #f4f5f7;
+        }
+        .msg:hover,
+        .voprosy-spisok summary:hover::after {
+          background-color: #e1e4e9;
         }
         .row:hover input:not(:checked) {
           border-color: var(--ink);
@@ -762,6 +981,18 @@
         .plitka.shirokaya {
           grid-row: auto;
           grid-column: span 2;
+        }
+        .doverie {
+          grid-template-columns: 1fr 1fr;
+          grid-auto-rows: minmax(380px, auto);
+        }
+        .doverie .otzyvy {
+          grid-column: span 2;
+        }
+        .voprosy,
+        .kontakty {
+          grid-template-columns: 1fr;
+          gap: var(--s6);
         }
       }
       @media (max-width: 760px) {
@@ -915,6 +1146,47 @@
         .plitka.razdelnaya > div {
           max-width: none;
         }
+        .doverie {
+          grid-template-columns: 1fr;
+          grid-auto-rows: auto;
+        }
+        .doverie .otzyvy {
+          grid-column: auto;
+        }
+        .reyting li {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .doverie .plitka.foto {
+          min-height: 360px;
+        }
+        .plitka .garantiya {
+          font-size: 60px;
+        }
+        .voprosy-spisok {
+          padding: var(--s2) var(--s5);
+        }
+        .voprosy-spisok summary {
+          font-size: 17px;
+          padding: 16px 0;
+        }
+        .kontakty dl {
+          grid-template-columns: 1fr;
+          gap: var(--s4);
+        }
+        .kontakty h2 {
+          margin-bottom: var(--s5);
+        }
+        .svyaz .btn {
+          width: 100%;
+        }
+        .msg {
+          flex: 1;
+          justify-content: center;
+        }
+        .karta {
+          min-height: 280px;
+        }
         .kontakty {
           grid-template-columns: 1fr;
           padding: var(--s6) var(--s5);
@@ -938,6 +1210,7 @@
           <ul class="menu">
             <li><a href="#uslugi">Услуги и цены</a></li>
             <li><a href="#kak">Как работаем</a></li>
+            <li><a href="#doverie">Отзывы</a></li>
             <li><a href="#kontakty">Контакты</a></li>
           </ul>
         </nav>
@@ -1246,26 +1519,177 @@
         </div>
       </section>
 
+      <section class="razdel" id="doverie">
+        <div class="wrap">
+          <h2>Почему нам доверяют машину</h2>
+          <p class="pod">
+            Что проверяют до записи: отзывы на картах, кто будет чинить и какая
+            гарантия.
+          </p>
+          <div class="doverie">
+            <article class="plitka otzyvy">
+              <div>
+                <div class="shag">Отзывы</div>
+                <h3>Оценки на картах</h3>
+                <ul class="reyting">
+                  <li>
+                    <b>Яндекс Карты</b
+                    ><span><i class="zvezdy" aria-hidden="true"></i>ваш рейтинг</span>
+                  </li>
+                  <li>
+                    <b>2ГИС</b
+                    ><span><i class="zvezdy" aria-hidden="true"></i>ваш рейтинг</span>
+                  </li>
+                </ul>
+                <p>
+                  Здесь встанут три свежих отзыва с карт: с именем, машиной и
+                  тем, что сделали. Выдуманные отзывы не ставим.
+                </p>
+                <span class="mesto">место для ваших отзывов</span>
+              </div>
+            </article>
+            <article class="plitka foto">
+              <img
+                src="img/mastera.webp"
+                alt=""
+                loading="lazy"
+                style="object-position: 50% 60%"
+              />
+              <div>
+                <div class="shag">Мастера</div>
+                <h3>Кто принял машину, тот и отдаёт</h3>
+                <p>
+                  Мастер сам объясняет, что сделал, и показывает снятые детали.
+                </p>
+                <span class="mesto">фото и имена — ваших мастеров</span>
+              </div>
+            </article>
+            <article class="plitka temnaya">
+              <div>
+                <div class="shag">Гарантия</div>
+                <p class="garantiya">6<small>мес</small></p>
+                <p>
+                  на работу или 10&nbsp;000 км — что наступит раньше. Срок
+                  пишем в заказ‑наряд.
+                </p>
+                <p class="snoska">На детали — гарантия производителя.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="razdel" id="voprosy">
+        <div class="wrap voprosy">
+          <div>
+            <h2>Частые вопросы</h2>
+            <p class="pod">
+              Не нашли ответ — позвоните или напишите в мессенджер, ответим за
+              15 минут.
+            </p>
+          </div>
+          <div class="voprosy-spisok">
+            <details>
+              <summary>Осмотр правда бесплатный?</summary>
+              <p>
+                Да: осмотр на подъёмнике перед ремонтом ничего не стоит, даже
+                если ремонтироваться у нас не будете. Платная только диагностика
+                с приборами — по прайсу, от 900 ₽.
+              </p>
+            </details>
+            <details>
+              <summary>Что будет, если в процессе найдёте ещё поломку?</summary>
+              <p>
+                Остановимся и позвоним: пришлём фото и назовём цену. Без вашего
+                согласия сверх заказ‑наряда ничего не делаем.
+              </p>
+            </details>
+            <details>
+              <summary>Можно приехать со своими запчастями?</summary>
+              <p>
+                Да. В наряд впишем только работу. Гарантия в этом случае — на
+                работу, за саму деталь отвечает продавец.
+              </p>
+            </details>
+            <details>
+              <summary>Сколько займёт ремонт?</summary>
+              <p>
+                ТО и шиномонтаж — 1–2 часа, можно подождать у нас. Срок ремонта
+                называем после осмотра и пишем в наряд. Если задерживаемся —
+                звоним сами.
+              </p>
+            </details>
+            <details>
+              <summary>Как оплатить?</summary>
+              <p>
+                Картой, наличными или по QR через СБП. Организациям — по счёту,
+                с закрывающими документами.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
       <section class="razdel" id="kontakty">
         <div class="wrap">
           <div class="kontakty">
-            <h2>Приезжайте или позвоните</h2>
-            <dl>
-              <dt>Адрес</dt>
-              <dd>адрес вашего сервиса, Казань</dd>
-              <dt>Часы</dt>
-              <dd>Ежедневно, 9:00–21:00</dd>
-            </dl>
-            <dl>
-              <dt>Телефон</dt>
-              <dd>
-                <a href="tel:+78430000000" style="text-decoration: none"
-                  >+7 843 000-00-00</a
+            <div>
+              <h2>Приезжайте или позвоните</h2>
+              <dl>
+                <div>
+                  <dt>Адрес</dt>
+                  <dd>адрес вашего сервиса, Казань</dd>
+                </div>
+                <div>
+                  <dt>Часы</dt>
+                  <dd>Ежедневно, 9:00–21:00</dd>
+                </div>
+                <div>
+                  <dt>Телефон</dt>
+                  <dd><a href="tel:+78430000000">+7 843 000-00-00</a></dd>
+                </div>
+                <div>
+                  <dt>Ответ в мессенджере</dt>
+                  <dd>за 15 минут</dd>
+                </div>
+              </dl>
+              <div class="svyaz">
+                <a class="btn" href="#zayavka">Записаться онлайн</a>
+                <a class="msg" href="#" data-msg="Telegram"
+                  ><svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="currentColor" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" /></svg
+                  >Telegram</a
                 >
-              </dd>
-              <dt>&nbsp;</dt>
-              <dd><a class="btn" href="#zayavka">Записаться онлайн</a></dd>
-            </dl>
+                <a class="msg" href="#" data-msg="MAX"
+                  ><svg viewBox="0 0 100 100" aria-hidden="true">
+                    <path fill="currentColor" fill-rule="evenodd" d="M50.7571 0.261719C78.2929 0.261719 99.8857 22.5974 99.8857 50.1474C99.8857 77.6974 77.6071 99.4903 51.0214 99.4903C41.5857 99.4903 37.0143 98.1617 29.65 92.9474C29.1429 92.5903 28.45 92.6831 28.0214 93.1403C22.3571 99.1831 7.85 103.426 7.18571 95.176C7.18571 80.7903 0 71.4474 0 49.876C0 21.5546 23.2214 0.261719 50.7571 0.261719ZM51.5286 24.8117C38.4643 24.126 28.2643 33.1974 26.0143 47.3831C24.15 59.1332 27.45 73.4546 30.2786 74.176C31.4786 74.4832 34.3571 72.276 36.4571 70.2974C36.85 69.926 37.45 69.8617 37.9071 70.1474C41.1786 72.1474 44.8786 73.6474 48.9571 73.8617C62.3714 74.5617 74.2571 64.0617 74.9643 50.6474C75.6643 37.2331 64.9429 25.5046 51.5286 24.8046V24.8117Z" /></svg
+                  >MAX</a
+                >
+              </div>
+              <p class="otvet" id="otvet-msg" role="status"></p>
+            </div>
+            <div class="karta">
+              <iframe
+                src="https://yandex.ru/map-widget/v1/?ll=49.1221%2C55.7887&amp;z=12"
+                title="Карта Казани"
+                loading="lazy"
+                tabindex="-1"
+              ></iframe>
+              <button
+                class="karta-vklyuchit"
+                type="button"
+                aria-label="Включить карту, чтобы двигать и приближать"
+                title="Нажмите, чтобы двигать карту"
+              ></button>
+              <span class="mesto">здесь — ваш адрес</span>
+              <a
+                class="btn svetlaya"
+                href="https://yandex.ru/maps/43/kazan/"
+                target="_blank"
+                rel="noopener"
+                >Открыть в Яндекс Картах</a
+              >
+            </div>
           </div>
           <div class="podval">
             <span
@@ -1312,6 +1736,19 @@
           "Это пример страницы. На настоящем сайте заявка придёт мастеру в Telegram, и он перезвонит за 15 минут.";
         o.classList.add("vidno");
       });
+      document
+        .querySelector(".karta-vklyuchit")
+        .addEventListener("click", (e) =>
+          e.currentTarget.parentElement.classList.add("vklyuchena"),
+        );
+      document.querySelectorAll("[data-msg]").forEach((a) =>
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          const o = document.getElementById("otvet-msg");
+          o.textContent = `Это пример страницы. На настоящем сайте кнопка откроет чат с сервисом в ${a.dataset.msg}.`;
+          o.classList.add("vidno");
+        }),
+      );
     </script>
   </body>
 </html>
