@@ -867,6 +867,12 @@
       .karta.vklyuchena iframe {
         pointer-events: auto;
       }
+      .karta .btn {
+        position: absolute;
+        left: 16px;
+        bottom: 40px;
+        box-shadow: 0 8px 24px rgba(14, 17, 22, 0.18);
+      }
       .karta-vklyuchit {
         position: absolute;
         inset: 0;
@@ -878,12 +884,6 @@
       }
       .karta.vklyuchena .karta-vklyuchit {
         display: none;
-      }
-      .karta .btn {
-        position: absolute;
-        left: 16px;
-        bottom: 44px;
-        box-shadow: 0 8px 24px rgba(14, 17, 22, 0.18);
       }
       .podval {
         padding: var(--s6) 0 var(--s7);
@@ -1185,7 +1185,10 @@
           justify-content: center;
         }
         .karta {
-          min-height: 280px;
+          min-height: 320px;
+        }
+        .karta .btn {
+          bottom: 72px;
         }
         .kontakty {
           grid-template-columns: 1fr;
@@ -1670,7 +1673,7 @@
             </div>
             <div class="karta">
               <iframe
-                src="https://yandex.ru/map-widget/v1/?ll=49.1221%2C55.7887&amp;z=12"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=49.03%2C55.745%2C49.215%2C55.835&amp;layer=mapnik"
                 title="Карта Казани"
                 loading="lazy"
                 tabindex="-1"
@@ -1687,7 +1690,7 @@
                 href="https://yandex.ru/maps/43/kazan/"
                 target="_blank"
                 rel="noopener"
-                >Открыть в Яндекс Картах</a
+                >Маршрут в Яндекс Картах</a
               >
             </div>
           </div>
