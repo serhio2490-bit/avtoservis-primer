@@ -844,14 +844,43 @@
         overflow: hidden;
         background: var(--studio);
       }
-      .karta iframe {
+      .karta img {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
-        border: 0;
-        pointer-events: none;
-        filter: grayscale(1) contrast(0.95);
+        max-width: none;
+        object-fit: none;
+        object-position: 50% 50%;
+      }
+      .metka {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 36px;
+        height: 36px;
+        margin: -40px 0 0 -18px;
+        border-radius: 50% 50% 50% 0;
+        transform: rotate(-45deg);
+        background: var(--ink);
+        box-shadow: 0 6px 16px rgba(14, 17, 22, 0.35);
+      }
+      .metka::after {
+        content: "";
+        position: absolute;
+        inset: 11px;
+        border-radius: 50%;
+        background: var(--amber);
+      }
+      .karta-avtory {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        padding: 3px 8px;
+        border-top-left-radius: 8px;
+        background: rgba(255, 255, 255, 0.85);
+        font-size: 11px;
+        color: var(--ink-2);
       }
       .karta .mesto {
         position: absolute;
@@ -864,26 +893,11 @@
         font-size: 13.5px;
         color: var(--ink-2);
       }
-      .karta.vklyuchena iframe {
-        pointer-events: auto;
-      }
       .karta .btn {
         position: absolute;
         left: 16px;
-        bottom: 40px;
+        bottom: 16px;
         box-shadow: 0 8px 24px rgba(14, 17, 22, 0.18);
-      }
-      .karta-vklyuchit {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        border: 0;
-        padding: 0;
-        background: transparent;
-        cursor: pointer;
-      }
-      .karta.vklyuchena .karta-vklyuchit {
-        display: none;
       }
       .podval {
         padding: var(--s6) 0 var(--s7);
@@ -1188,7 +1202,7 @@
           min-height: 320px;
         }
         .karta .btn {
-          bottom: 72px;
+          bottom: 28px;
         }
         .kontakty {
           grid-template-columns: 1fr;
@@ -1672,18 +1686,15 @@
               <p class="otvet" id="otvet-msg" role="status"></p>
             </div>
             <div class="karta">
-              <iframe
-                src="https://www.openstreetmap.org/export/embed.html?bbox=49.03%2C55.745%2C49.215%2C55.835&amp;layer=mapnik"
-                title="Карта Казани"
+              <img
+                src="img/karta-kazan.webp"
+                alt="Карта центра Казани"
+                width="1000"
+                height="600"
                 loading="lazy"
-                tabindex="-1"
-              ></iframe>
-              <button
-                class="karta-vklyuchit"
-                type="button"
-                aria-label="Включить карту, чтобы двигать и приближать"
-                title="Нажмите, чтобы двигать карту"
-              ></button>
+              />
+              <i class="metka" aria-hidden="true"></i>
+              <small class="karta-avtory">© участники OpenStreetMap</small>
               <span class="mesto">здесь — ваш адрес</span>
               <a
                 class="btn svetlaya"
@@ -1739,11 +1750,6 @@
           "Это пример страницы. На настоящем сайте заявка придёт мастеру в Telegram, и он перезвонит за 15 минут.";
         o.classList.add("vidno");
       });
-      document
-        .querySelector(".karta-vklyuchit")
-        .addEventListener("click", (e) =>
-          e.currentTarget.parentElement.classList.add("vklyuchena"),
-        );
       document.querySelectorAll("[data-msg]").forEach((a) =>
         a.addEventListener("click", (e) => {
           e.preventDefault();
