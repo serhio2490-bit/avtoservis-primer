@@ -389,6 +389,9 @@
         gap: 8px;
         align-items: flex-start;
       }
+      .soglasie a {
+        color: inherit;
+      }
       .soglasie input {
         width: 18px;
         height: 18px;
@@ -559,6 +562,9 @@
         color: var(--ink);
         letter-spacing: -0.02em;
         font-variant-numeric: tabular-nums;
+      }
+      .itogo output.pusto {
+        color: var(--ink-2);
       }
 
       /* ---------- Как работаем: разные размеры ---------- */
@@ -1368,12 +1374,17 @@
                 Сделаем: ТО по регламенту — масло, фильтры, осмотр,
                 <b>от 2 500 ₽</b>
               </p>
-              <label class="soglasie"
-                ><input type="checkbox" required /><span
-                  >Согласен на обработку данных по
-                  <a href="#">политике</a></span
-                ></label
-              >
+              <div class="soglasie">
+                <input type="checkbox" id="z-soglasie" required />
+                <span
+                  ><label for="z-soglasie"
+                    >Согласен на обработку персональных данных</label
+                  >
+                  —
+                  <a href="soglasie.html" target="_blank">согласие</a> и
+                  <a href="politika.html" target="_blank">политика</a></span
+                >
+              </div>
             </div>
             <p class="otvet" id="otvet" role="status"></p>
           </form>
@@ -1460,7 +1471,10 @@
                 ><span class="cena">от 1 600 ₽</span></label
               >
               <div class="itogo">
-                <p>Ориентир<output id="itogo">Отметьте услуги</output></p>
+                <p>
+                  <span id="itogo-podpis">Отметьте работы — посчитаем ориентир</span
+                  ><output id="itogo" class="pusto">0 ₽</output>
+                </p>
                 <a class="btn" href="#zayavka">Записаться с этим списком</a>
               </div>
             </form>
@@ -1728,9 +1742,11 @@
           (a, i) => a + +i.value,
           0,
         );
-        out.textContent = s
-          ? "от " + s.toLocaleString("ru-RU") + " ₽"
-          : "Отметьте услуги";
+        out.textContent = s ? "от " + s.toLocaleString("ru-RU") + " ₽" : "0 ₽";
+        out.classList.toggle("pusto", !s);
+        document.getElementById("itogo-podpis").textContent = s
+          ? "Ориентир"
+          : "Отметьте работы — посчитаем ориентир";
       });
       const SIM = [
         ["ТО по регламенту — масло, фильтры, осмотр", "от 2 500 ₽"],
